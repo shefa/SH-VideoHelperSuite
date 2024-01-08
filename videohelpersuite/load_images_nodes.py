@@ -102,7 +102,7 @@ class LoadImagesFromDirectoryUpload:
     RETURN_TYPES = ("IMAGE", "MASK", "INT")
     FUNCTION = "load_images"
 
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
 
     def load_images(self, directory: str, **kwargs):
         directory = folder_paths.get_annotated_filepath(directory.strip())
@@ -136,7 +136,7 @@ class LoadImagesFromDirectoryPath:
     RETURN_TYPES = ("IMAGE", "MASK", "INT")
     FUNCTION = "load_images"
 
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
 
     def load_images(self, directory: str, **kwargs):
         if directory is None or validate_load_images(directory) != True:
