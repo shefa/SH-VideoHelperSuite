@@ -24,7 +24,10 @@ class VAEDecodeBatched:
         for start_idx in range(0, samples["samples"].shape[0], per_batch):
             logger.info(str(start_idx)+"/"+str(samples["samples"].shape[0]))
             decoded.append(vae.decode(samples["samples"][start_idx:start_idx+per_batch]))
-        return (torch.cat(decoded, dim=0), )
+        logger.info("decode ended!")
+        ret = torch.cat(decoded, dim=0)
+        logger.info("really ended!")
+        return (ret, )
 
 
 class VAEEncodeBatched:
