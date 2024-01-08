@@ -351,7 +351,7 @@ class VideoCombine:
         ]
         return {"ui": {"gifs": previews}, "result": ((save_output, output_files),)}
     @classmethod
-    def VALIDATE_INPUTS(self, format, **kwargs):
+    def VALIDATE_INPUTS(self, format):
         return True
 
 class LoadAudio:
