@@ -1,6 +1,6 @@
 import torch
 from nodes import VAEEncode
-
+from .logger import logger
 
 class VAEDecodeBatched:
     @classmethod
@@ -20,7 +20,9 @@ class VAEDecodeBatched:
 
     def decode(self, vae, samples, per_batch):
         decoded = []
+        logger.info("starting decode")
         for start_idx in range(0, samples["samples"].shape[0], per_batch):
+            logger.info(str(start_idx)+"/"+str(samples["samples"].shape[0]))
             decoded.append(vae.decode(samples["samples"][start_idx:start_idx+per_batch]))
         return (torch.cat(decoded, dim=0), )
 
