@@ -121,15 +121,19 @@ class VideoCombine:
         audio=None,
         unique_id=None,
     ):
+        logger.info('combine_video_init')
         kwargs = prompt[unique_id]['inputs']
         # convert images to numpy
-
+        logger.info('1')
         # get output information
         output_dir = (
             folder_paths.get_output_directory()
             if save_output
             else folder_paths.get_temp_directory()
         )
+        logger.info('2')
+        logger.info(output_dir)
+        
         (
             full_output_folder,
             filename,
@@ -138,20 +142,27 @@ class VideoCombine:
             _,
         ) = folder_paths.get_save_image_path(filename_prefix, output_dir)
         output_files = []
-
+        logger.info('3')
+        
         metadata = PngInfo()
+        logger.info('4')
         video_metadata = {}
         if prompt is not None:
             metadata.add_text("prompt", json.dumps(prompt))
             video_metadata["prompt"] = prompt
+            logger.info('5')
         if extra_pnginfo is not None:
+            logger.info('6')
             for x in extra_pnginfo:
+                logger.info('7')
                 metadata.add_text(x, json.dumps(extra_pnginfo[x]))
                 video_metadata[x] = extra_pnginfo[x]
+            logger.info('8')
 
+        logger.info('9')
         # comfy counter workaround
         max_counter = 0
-
+        logger.info('10...')
         # Loop through the existing files
         matcher = re.compile(f"{re.escape(filename)}_(\d+)\D*\.[a-zA-Z0-9]+")
         for existing_file in os.listdir(full_output_folder):
@@ -163,22 +174,28 @@ class VideoCombine:
                 # Update the maximum counter value if necessary
                 if file_counter > max_counter:
                     max_counter = file_counter
-
+        logger.info('11')
         # Increment the counter by 1 to get the next available value
         counter = max_counter + 1
-
+        logger.info('12')
         # save first frame as png to keep metadata
         file = f"{filename}_{counter:05}.png"
+        logger.info(file)
         file_path = os.path.join(full_output_folder, file)
+        logger.info('13')
         Image.fromarray(tensor_to_bytes(images[0])).save(
             file_path,
             pnginfo=metadata,
             compress_level=4,
         )
+        logger.info('14')
         output_files.append(file_path)
-
+        logger.info('15')
+        
         format_type, format_ext = format.split("/")
+        logger.info('16')
         if format_type == "image":
+            logger.info('17')
             file = f"{filename}_{counter:05}.{format_ext}"
             file_path = os.path.join(full_output_folder, file)
             images = tensor_to_bytes(images)
@@ -197,27 +214,39 @@ class VideoCombine:
             )
             output_files.append(file_path)
         else:
+            logger.info('18ffmpeg')
             # Use ffmpeg to save a video
             if ffmpeg_path is None:
                 #Should never be reachable
                 raise ProcessLookupError("Could not find ffmpeg")
-
+            logger.info('19')
             video_format_path = folder_paths.get_full_path("VHS_video_formats", format_ext + ".json")
+            logger.info('20')
             with open(video_format_path, 'r') as stream:
                 video_format = json.load(stream)
+            logger.info('21')
             video_format = apply_format_widgets(format_ext, kwargs)
+            logger.info('22')
             if video_format.get('input_color_depth', '8bit') == '16bit':
                 images = tensor_to_shorts(images)
                 i_pix_fmt = 'rgb48'
             else:
                 images = tensor_to_bytes(images)
                 i_pix_fmt = 'rgb24'
+            logger.info('23')
             if pingpong:
                 images = np.concatenate((images, images[-2:0:-1]))
+            logger.info('24')
             file = f"{filename}_{counter:05}.{video_format['extension']}"
+            logger.info('25')
+            logger.info(file)
             file_path = os.path.join(full_output_folder, file)
+            logger.info('26')
             dimensions = f"{len(images[0][0])}x{len(images[0])}"
+            logger.info(dimensions)
             loop_args = ["-vf", "loop=loop=" + str(loop_count)+":size=" + str(len(images))]
+            logger.info('27')
+            logger.info(loop_args)
             bitrate_arg = []
             bitrate = video_format.get('bitrate')
             if bitrate is not None:
@@ -225,12 +254,14 @@ class VideoCombine:
             args = [ffmpeg_path, "-v", "error", "-f", "rawvideo", "-pix_fmt", i_pix_fmt,
                     "-s", dimensions, "-r", str(frame_rate), "-i", "-"] \
                     + loop_args + video_format['main_pass'] + bitrate_arg
-
+            logger.info('28')
             env=os.environ.copy()
             if  "environment" in video_format:
                 env.update(video_format["environment"])
             res = None
+            logger.info('29')
             if video_format.get('save_metadata', 'False') != 'False':
+                logger.info('30')
                 os.makedirs(folder_paths.get_temp_directory(), exist_ok=True)
                 metadata = json.dumps(video_metadata)
                 metadata_path = os.path.join(folder_paths.get_temp_directory(), "metadata.txt")
@@ -260,6 +291,8 @@ class VideoCombine:
                     logger.warn("An error occurred when saving with metadata")
 
             if not res:
+                logger.info('31')
+                logger.info(args + [file_path])
                 try:
                     res = subprocess.run(args + [file_path], input=images.tobytes(),
                                          capture_output=True, check=True, env=env)
@@ -270,11 +303,13 @@ class VideoCombine:
                 print(res.stderr.decode("utf-8"), end="", file=sys.stderr)
             output_files.append(file_path)
 
+            logger.info('32')
 
             # Audio Injection after video is created, saves additional video with -audio.mp4
 
             # Create audio file if input was provided
             if audio:
+                logger.info('33')
                 output_file_with_audio = f"{filename}_{counter:05}-audio.{video_format['extension']}"
                 output_file_with_audio_path = os.path.join(full_output_folder, output_file_with_audio)
                 if "audio_pass" not in video_format:
@@ -289,6 +324,9 @@ class VideoCombine:
                             "-i", "-", "-c:v", "copy"] \
                             + video_format["audio_pass"] \
                             + ["-af", "apad", "-shortest", output_file_with_audio_path]
+
+                logger.info(mux_args)
+                logger.info('34')
 
                 try:
                     res = subprocess.run(mux_args, input=audio(), env=env,
