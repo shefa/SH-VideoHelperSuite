@@ -104,7 +104,7 @@ class VideoCombine:
     RETURN_TYPES = ("VHS_FILENAMES",)
     RETURN_NAMES = ("Filenames",)
     OUTPUT_NODE = True
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
     FUNCTION = "combine_video"
 
     def combine_video(
@@ -329,7 +329,7 @@ class LoadAudio:
 
     RETURN_TYPES = ("VHS_AUDIO",)
     RETURN_NAMES = ("audio",)
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
     FUNCTION = "load_audio"
     def load_audio(self, audio_file, seek_seconds):
         if audio_file is None or validate_path(audio_file) != True:
@@ -348,46 +348,46 @@ class LoadAudio:
         return validate_path(audio_file, allow_none=True)
 
 NODE_CLASS_MAPPINGS = {
-    "VHS_VideoCombine": VideoCombine,
-    "VHS_LoadVideo": LoadVideoUpload,
-    "VHS_LoadVideoPath": LoadVideoPath,
-    "VHS_LoadImages": LoadImagesFromDirectoryUpload,
-    "VHS_LoadImagesPath": LoadImagesFromDirectoryPath,
-    "VHS_LoadAudio": LoadAudio,
+    "SH_VHS_VideoCombine": VideoCombine,
+    "SH_VHS_LoadVideo": LoadVideoUpload,
+    "SH_VHS_LoadVideoPath": LoadVideoPath,
+    "SH_VHS_LoadImages": LoadImagesFromDirectoryUpload,
+    "SH_VHS_LoadImagesPath": LoadImagesFromDirectoryPath,
+    "SH_VHS_LoadAudio": LoadAudio,
     # Latent and Image nodes
-    "VHS_SplitLatents": SplitLatents,
-    "VHS_SplitImages": SplitImages,
-    "VHS_MergeLatents": MergeLatents,
-    "VHS_MergeImages": MergeImages,
-    "VHS_SelectEveryNthLatent": SelectEveryNthLatent,
-    "VHS_SelectEveryNthImage": SelectEveryNthImage,
-    "VHS_GetLatentCount": GetLatentCount,
-    "VHS_GetImageCount": GetImageCount,
-    "VHS_DuplicateLatents": DuplicateLatents,
-    "VHS_DuplicateImages": DuplicateImages,
+    "SH_VHS_SplitLatents": SplitLatents,
+    "SH_VHS_SplitImages": SplitImages,
+    "SH_VHS_MergeLatents": MergeLatents,
+    "SH_VHS_MergeImages": MergeImages,
+    "SH_VHS_SelectEveryNthLatent": SelectEveryNthLatent,
+    "SH_VHS_SelectEveryNthImage": SelectEveryNthImage,
+    "SH_VHS_GetLatentCount": GetLatentCount,
+    "SH_VHS_GetImageCount": GetImageCount,
+    "SH_VHS_DuplicateLatents": DuplicateLatents,
+    "SH_VHS_DuplicateImages": DuplicateImages,
     # Batched Nodes
-    "VHS_VAEEncodeBatched": VAEEncodeBatched,
-    "VHS_VAEDecodeBatched": VAEDecodeBatched,
+    "SH_VHS_VAEEncodeBatched": VAEEncodeBatched,
+    "SH_VHS_VAEDecodeBatched": VAEDecodeBatched,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "VHS_VideoCombine": "Video Combine 🎥🅥🅗🅢",
-    "VHS_LoadVideo": "Load Video (Upload) 🎥🅥🅗🅢",
-    "VHS_LoadVideoPath": "Load Video (Path) 🎥🅥🅗🅢",
-    "VHS_LoadImages": "Load Images (Upload) 🎥🅥🅗🅢",
-    "VHS_LoadImagesPath": "Load Images (Path) 🎥🅥🅗🅢",
-    "VHS_LoadAudio": "Load Audio (Path)🎥🅥🅗🅢",
+    "SH_VHS_VideoCombine": "Video Combine 🎥🅥🅗🅢",
+    "SH_VHS_LoadVideo": "Load Video (Upload) 🎥🅥🅗🅢",
+    "SH_VHS_LoadVideoPath": "Load Video (Path) 🎥🅥🅗🅢",
+    "SH_VHS_LoadImages": "Load Images (Upload) 🎥🅥🅗🅢",
+    "SH_VHS_LoadImagesPath": "Load Images (Path) 🎥🅥🅗🅢",
+    "SH_VHS_LoadAudio": "Load Audio (Path)🎥🅥🅗🅢",
     # Latent and Image nodes
-    "VHS_SplitLatents": "Split Latent Batch 🎥🅥🅗🅢",
-    "VHS_SplitImages": "Split Image Batch 🎥🅥🅗🅢",
-    "VHS_MergeLatents": "Merge Latent Batches 🎥🅥🅗🅢",
-    "VHS_MergeImages": "Merge Image Batches 🎥🅥🅗🅢",
-    "VHS_SelectEveryNthLatent": "Select Every Nth Latent 🎥🅥🅗🅢",
-    "VHS_SelectEveryNthImage": "Select Every Nth Image 🎥🅥🅗🅢",
-    "VHS_GetLatentCount": "Get Latent Count 🎥🅥🅗🅢",
-    "VHS_GetImageCount": "Get Image Count 🎥🅥🅗🅢",
-    "VHS_DuplicateLatents": "Duplicate Latent Batch 🎥🅥🅗🅢",
-    "VHS_DuplicateImages": "Duplicate Image Batch 🎥🅥🅗🅢",
+    "SH_VHS_SplitLatents": "Split Latent Batch 🎥🅥🅗🅢",
+    "SH_VHS_SplitImages": "Split Image Batch 🎥🅥🅗🅢",
+    "SH_VHS_MergeLatents": "Merge Latent Batches 🎥🅥🅗🅢",
+    "SH_VHS_MergeImages": "Merge Image Batches 🎥🅥🅗🅢",
+    "SH_VHS_SelectEveryNthLatent": "Select Every Nth Latent 🎥🅥🅗🅢",
+    "SH_VHS_SelectEveryNthImage": "Select Every Nth Image 🎥🅥🅗🅢",
+    "SH_VHS_GetLatentCount": "Get Latent Count 🎥🅥🅗🅢",
+    "SH_VHS_GetImageCount": "Get Image Count 🎥🅥🅗🅢",
+    "SH_VHS_DuplicateLatents": "Duplicate Latent Batch 🎥🅥🅗🅢",
+    "SH_VHS_DuplicateImages": "Duplicate Image Batch 🎥🅥🅗🅢",
     # Batched Nodes
-    "VHS_VAEEncodeBatched": "VAE Encode Batched 🎥🅥🅗🅢",
-    "VHS_VAEDecodeBatched": "VAE Decode Batched 🎥🅥🅗🅢",
+    "SH_VHS_VAEEncodeBatched": "VAE Encode Batched 🎥🅥🅗🅢",
+    "SH_VHS_VAEDecodeBatched": "VAE Decode Batched 🎥🅥🅗🅢",
 }
