@@ -126,7 +126,7 @@ class LoadVideoUpload:
                      "select_every_nth": ("INT", {"default": 1, "min": 1, "step": 1}),
                      },}
 
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
 
     RETURN_TYPES = ("IMAGE", "INT", "VHS_AUDIO", )
     RETURN_NAMES = ("IMAGE", "frame_count", "audio",)
@@ -162,7 +162,7 @@ class LoadVideoPath:
             },
         }
 
-    CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
+    CATEGORY = "SH Video Helper Suite 🎥🅥🅗🅢"
 
     RETURN_TYPES = ("IMAGE", "INT", "VHS_AUDIO", )
     RETURN_NAMES = ("IMAGE", "frame_count", "audio",)
