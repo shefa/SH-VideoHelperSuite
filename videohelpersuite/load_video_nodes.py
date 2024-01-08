@@ -21,19 +21,8 @@ def is_gif(filename) -> bool:
 def target_size(width, height, force_size) -> tuple[int, int]:
     if force_size != "Disabled":
         force_size = force_size.split("x")
-        if force_size[0] == "?":
-            width = (width*int(force_size[1]))//height
-            #Limit to a multple of 8 for latent conversion
-            #TODO: Consider instead cropping and centering to main aspect ratio
-            width = int(width)+4 & ~7
-            height = int(force_size[1])
-        elif force_size[1] == "?":
-            height = (height*int(force_size[0]))//width
-            height = int(height)+4 & ~7
-            width = int(force_size[0])
-        else:
-            width = int(force_size[0])
-            height = int(force_size[1])
+        width = int(force_size[0])
+        height = int(force_size[1])
     return (width, height)
 
 def load_video_cv(video: str, force_rate: int, force_size: str, frame_load_cap: int, skip_first_frames: int, select_every_nth: int):
@@ -120,7 +109,7 @@ class LoadVideoUpload:
         return {"required": {
                     "video": (sorted(files),),
                      "force_rate": ("INT", {"default": 0, "min": 0, "max": 24, "step": 1}),
-                     "force_size": (["Disabled", "256x?", "?x256", "256x256", "512x?", "?x512", "512x512"],),
+                     "force_size": (["Disabled", "1024x576"],),
                      "frame_load_cap": ("INT", {"default": 0, "min": 0, "step": 1}),
                      "skip_first_frames": ("INT", {"default": 0, "min": 0, "step": 1}),
                      "select_every_nth": ("INT", {"default": 1, "min": 1, "step": 1}),
@@ -155,7 +144,7 @@ class LoadVideoPath:
             "required": {
                 "video": ("STRING", {"default": "X://insert/path/here.mp4", "vhs_path_extensions": video_extensions}),
                 "force_rate": ("INT", {"default": 0, "min": 0, "max": 24, "step": 1}),
-                "force_size": (["Disabled", "256x?", "?x256", "256x256", "512x?", "?x512", "512x512"],),
+                "force_size": (["Disabled", "1024x576"],),
                 "frame_load_cap": ("INT", {"default": 0, "min": 0, "step": 1}),
                 "skip_first_frames": ("INT", {"default": 0, "min": 0, "step": 1}),
                 "select_every_nth": ("INT", {"default": 1, "min": 1, "step": 1}),
